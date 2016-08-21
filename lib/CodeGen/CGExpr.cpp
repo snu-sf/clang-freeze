@@ -1706,6 +1706,10 @@ void CodeGenFunction::EmitStoreThroughBitfieldLValue(RValue Src, LValue Dst,
   // Cast the source to the storage type and shift it into place.
   SrcVal = Builder.CreateIntCast(SrcVal, Ptr.getElementType(),
                                  /*IsSigned=*/false);
+
+  // Freeze SrcVal.
+  SrcVal = Builder.CreateFreeze(SrcVal);
+
   llvm::Value *MaskedVal = SrcVal;
 
   // See if there are other bits in the bitfield's storage we'll need to load
@@ -1714,6 +1718,9 @@ void CodeGenFunction::EmitStoreThroughBitfieldLValue(RValue Src, LValue Dst,
     assert(Info.StorageSize > Info.Size && "Invalid bitfield size.");
     llvm::Value *Val =
       Builder.CreateLoad(Ptr, Dst.isVolatileQualified(), "bf.load");
+
+    // Freeze loaded value.
+    Val = Builder.CreateFreeze(Val);
 
     // Mask the source value as needed.
     if (!hasBooleanRepresentation(Dst.getType()))
