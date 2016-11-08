@@ -1686,9 +1686,6 @@ void CodeGenFunction::EmitStoreThroughBitfieldLValue(RValue Src, LValue Dst,
     llvm::Value *Val =
       Builder.CreateLoad(Ptr, Dst.isVolatileQualified(), "bf.load");
 
-    // Freeze loaded value.
-    Val = Builder.CreateFreeze(Val);
-
     // Mask the source value as needed.
     if (!hasBooleanRepresentation(Dst.getType()))
       SrcVal = Builder.CreateAnd(SrcVal,
