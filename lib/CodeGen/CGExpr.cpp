@@ -1707,9 +1707,6 @@ void CodeGenFunction::EmitStoreThroughBitfieldLValue(RValue Src, LValue Dst,
   SrcVal = Builder.CreateIntCast(SrcVal, Ptr.getElementType(),
                                  /*IsSigned=*/false);
 
-  // Freeze SrcVal.
-  SrcVal = Builder.CreateFreeze(SrcVal);
-
   llvm::Value *MaskedVal = SrcVal;
 
   // See if there are other bits in the bitfield's storage we'll need to load
