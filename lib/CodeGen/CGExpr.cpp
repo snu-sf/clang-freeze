@@ -1675,7 +1675,7 @@ void CodeGenFunction::EmitStoreThroughBitfieldLValue(RValue Src, LValue Dst,
                                  /*IsSigned=*/false);
 
   // Freeze SrcVal.
-  SrcVal = Builder.CreateFreeze(SrcVal);
+  //SrcVal = Builder.CreateFreeze(SrcVal);
 
   llvm::Value *MaskedVal = SrcVal;
 
